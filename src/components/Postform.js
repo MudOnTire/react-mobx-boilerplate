@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
-import postStore from '../stores/PostStore';
 
+@inject('postStore')
 @observer
 export default class Postform extends Component {
 
@@ -13,7 +13,7 @@ export default class Postform extends Component {
     e.preventDefault();
     const { title, body } = this;
     const post = { title, body };
-    postStore.createPost(post).catch(err => {
+    this.props.postStore.createPost(post).catch(err => {
       console.log(err);
     });
   }

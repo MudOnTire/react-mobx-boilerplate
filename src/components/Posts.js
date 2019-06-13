@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
-import postStore from '../stores/PostStore';
-import { observable } from 'mobx';
+import { observer, inject } from 'mobx-react';
 
+@inject('postStore')
 @observer
 export default class Posts extends Component {
 
   componentWillMount() {
+    console.log(this.props);
+    const { postStore } = this.props;
     postStore.fetchPosts().catch(err => {
       console.log(err);
     });
   }
 
   render() {
-    const { posts } = postStore;
+    const { posts } = this.props.postStore;
     const postItems = posts.map(p => {
       return (
         <div key={p.id}>
